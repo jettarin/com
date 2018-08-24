@@ -20,7 +20,7 @@ export class RestProvider {
       this.http.get(this.apiUrl+'/LISTOFVALUE/getAllMonth.php').subscribe(data => {
         resolve(data);
       }, err => {
-        console.log(err);
+        
       });
     });
   }
