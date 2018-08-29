@@ -14,15 +14,9 @@ export class ListMasterPage {
   users: any;
   constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController,  public restProvider: RestProvider) {
     this.currentItems = this.items.query();
-    this.getUsers();
+
   }
-  getUsers() {
-    this.restProvider.getUsers()
-    .then(data => {
-      this.users = data;
-      console.log(this.users);
-    });
-  }
+
   /**
    * The view loaded, let's query our items for the list
    */
@@ -43,6 +37,10 @@ export class ListMasterPage {
       }
     })
     addModal.present();
+  }
+
+  gotoWorkList(){
+    this.navCtrl.push('WorksPage')
   }
 
   /**

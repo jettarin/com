@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class RestProvider {
-  apiUrl = 'http://localhost:80/ens/api';
+  apiUrl = 'http://localhost:8081';
   constructor(public http: HttpClient) {
     console.log('Hello RestProvider Provider');
   }
@@ -18,6 +18,16 @@ export class RestProvider {
   getUsers() {
     return new Promise(resolve => {
       this.http.get(this.apiUrl+'/LISTOFVALUE/getAllMonth.php').subscribe(data => {
+        resolve(data);
+      }, err => {
+        
+      });
+    });
+  }
+
+  getWorks(){
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/api/works').subscribe(data => {
         resolve(data);
       }, err => {
         
