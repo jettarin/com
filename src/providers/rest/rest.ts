@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 /*
@@ -7,9 +7,18 @@ import { Injectable } from '@angular/core';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
+
+// Set Headers to post request
+const httpOptions = {
+  headers: new HttpHeaders(
+    { 'Content-Type': 'application/x-www-form-urlencoded' },
+  )
+}
+
+
 @Injectable()
 export class RestProvider {
-  apiUrl = 'http://localhost:8081';
+  apiUrl = 'http://203.157.82.34:8081';
   constructor(public http: HttpClient) {
     console.log('Hello RestProvider Provider');
   }
@@ -25,6 +34,18 @@ export class RestProvider {
     });
   }
 
+  getUser(user){
+    console.log(user);
+    return new Promise((resolve) => {
+      this.http.post(this.apiUrl+'/api/login', JSON.stringify(user), httpOptions).subscribe(res => {
+      resolve(res);
+      }, (err) => {
+      console.log(err);
+      
+      });
+      });
+  }
+
   getWorks(){
     return new Promise(resolve => {
       this.http.get(this.apiUrl+'/api/works').subscribe(data => {
@@ -33,6 +54,27 @@ export class RestProvider {
         
       });
     });
+  }
+
+  getJobs(){
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/api/jobs').subscribe(data => {
+        resolve(data);
+      }, err => {
+        
+      });
+    });
+  }
+
+  saveJob(j){
+    return new Promise((resolve) => {
+      this.http.post(this.apiUrl+'/api/save', JSON.stringify(j), httpOptions).subscribe(res => {
+      resolve(res);
+      }, (err) => {
+      console.log(err);
+      
+      });
+      });
   }
 
 

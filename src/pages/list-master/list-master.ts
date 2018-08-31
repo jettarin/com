@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController, NavController } from 'ionic-angular';
+import { IonicPage, ModalController, NavController ,NavParams} from 'ionic-angular';
 import { RestProvider } from '../../providers/rest/rest';
-import { Item } from '../../models/item';
-import { Items } from '../../providers';
+import { Storage } from '@ionic/storage';
+import * as moment from 'moment';
+
 
 @IonicPage()
 @Component({
@@ -10,17 +11,53 @@ import { Items } from '../../providers';
   templateUrl: 'list-master.html'
 })
 export class ListMasterPage {
-  currentItems: Item[];
-  users: any;
-  constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController,  public restProvider: RestProvider) {
-    this.currentItems = this.items.query();
+  jobs: any;
+  user: any;
 
+  constructor(private storage: Storage,
+    public navCtrl: NavController, 
+    public modalCtrl: ModalController,  
+    public restProvider: RestProvider, 
+    navParams : NavParams) {
+    moment.locale('th');
+    
+    
+    
+    this.storage.get('permission').then((val) => {
+      console.log('Your name is', val);
+      if (!val) {      
+       this.logout()
+      }
+    });
+    this.storage.get('user').then((val) => {
+      this.user = val
+      
+    });
+
+    
+    
   }
 
   /**
    * The view loaded, let's query our items for the list
    */
   ionViewDidLoad() {
+    
+    let urlImg = "http://203.157.82.34:3000/ens/jcrop/upload_pic/";
+ 
+    
+    this.restProvider.getJobs()
+    .then(data => {
+      this.jobs = data;
+      this.jobs.forEach(e => {
+        e.job_created = moment(e.job_date_created+' '+e.job_time_created).format('LLLL')
+        e.pic_name = urlImg+e.pic_name
+        e.fromnow = moment(e.job_date_created+' '+e.job_time_created).fromNow()
+      });
+      console.log(this.jobs);
+    });
+    
+    
   }
 
 
@@ -30,32 +67,27 @@ export class ListMasterPage {
    * modal and then adds the new item to our data source if the user created one.
    */
   addItem() {
-    let addModal = this.modalCtrl.create('ItemCreatePage');
-    addModal.onDidDismiss(item => {
-      if (item) {
-        this.items.add(item);
-      }
-    })
-    addModal.present();
+
   }
 
+  logout(){
+    this.navCtrl.push('LoginPage', {data:this.user})
+  }
   gotoWorkList(){
-    this.navCtrl.push('WorksPage')
+    this.navCtrl.push('WorksPage' , {data:this.user})
   }
 
   /**
    * Delete an item from the list of items.
    */
   deleteItem(item) {
-    this.items.delete(item);
+    
   }
 
   /**
    * Navigate to the detail page for this item.
    */
-  openItem(item: Item) {
-    this.navCtrl.push('ItemDetailPage', {
-      item: item
-    });
+  openItem() {
+    
   }
 }

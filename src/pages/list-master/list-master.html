@@ -10,21 +10,32 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of currentItems">
-      <button ion-item (click)="openItem(item)">
+  <ion-card  *ngFor="let j of jobs" >
+      <ion-item>
         <ion-avatar item-start>
-          <img [src]="item.profilePic" />
+          <img src="{{j.pic_name}}">
         </ion-avatar>
-        <h2>{{item.name}}</h2>
-        <p>{{item.about}}</p>
-        <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
-      </button>
-      <ion-item-options>
-        <button ion-button color="danger" (click)="deleteItem(item)">
-          {{ 'DELETE_BUTTON' | translate }}
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+        <h2>{{j.Mem_name}} {{j.Mem_lastname}}</h2>
+        <p>{{j.job_created}}</p>
+      </ion-item>
+      <img src="assets/img/advance-card-bttf.png">
+      <ion-card-content>
+        <p>{{j.job_header}}</p>
+      </ion-card-content>
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-start clear small>
+            <ion-icon name="clock"></ion-icon>
+            <div>{{j.fromnow}}</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-start clear small>
+            <ion-icon name="text"></ion-icon>
+            <div>{{j.lov_description}}</div>
+          </button>
+        </ion-col>
+        
+      </ion-row>
+    </ion-card>
 </ion-content>

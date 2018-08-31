@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams ,ModalController} from 'ionic-angular';
 import { RestProvider } from '../../providers/rest/rest';
-import { Item } from '../../models/item';
-import { Items } from '../../providers';
+
+
 /**
  * Generated class for the WorksPage page.
  *
@@ -17,11 +17,14 @@ import { Items } from '../../providers';
 })
 export class WorksPage {
   works: any;
+  user:any;
   // items:['1','2','3']
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,  
     public restProvider: RestProvider,
     public modalCtrl: ModalController) {
+    console.log("data=",navParams.data);
+    this.user = navParams.data
     this.worklist();
   }
 
@@ -45,7 +48,8 @@ export class WorksPage {
   }
 
   openItem(v) {
-    let addModal = this.modalCtrl.create('ItemCreatePage',v);
+
+    let addModal = this.modalCtrl.create('ItemCreatePage',{params:v,user:this.user});
     addModal.onDidDismiss(item => {
       // if (item) {
       //   this.items.add(item);
