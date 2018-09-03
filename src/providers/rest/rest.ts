@@ -18,7 +18,7 @@ const httpOptions = {
 
 @Injectable()
 export class RestProvider {
-  apiUrl = 'http://203.157.82.34:8081';
+  apiUrl = 'http://203.157.82.34:3001';
   constructor(public http: HttpClient) {
     console.log('Hello RestProvider Provider');
   }
