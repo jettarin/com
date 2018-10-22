@@ -18,7 +18,8 @@ const httpOptions = {
 
 @Injectable()
 export class RestProvider {
-  apiUrl = 'http://203.157.82.34:8081';
+   apiUrl = 'http://203.157.82.34:3001';
+  // apiUrl = 'http://localhost:7070';
   constructor(public http: HttpClient) {
     console.log('Hello RestProvider Provider');
   }
@@ -41,7 +42,6 @@ export class RestProvider {
       resolve(res);
       }, (err) => {
       console.log(err);
-      
       });
       });
   }
@@ -56,9 +56,9 @@ export class RestProvider {
     });
   }
 
-  getJobs(){
+  getDepartments (){
     return new Promise(resolve => {
-      this.http.get(this.apiUrl+'/api/jobs').subscribe(data => {
+      this.http.get(this.apiUrl+'/api/departments').subscribe(data => {
         resolve(data);
       }, err => {
         
@@ -66,9 +66,29 @@ export class RestProvider {
     });
   }
 
+  getJobs(){
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/api/jobs').subscribe(data => {
+        resolve(data);
+      }, err => { 
+      });
+    });
+  }
+
   saveJob(j){
     return new Promise((resolve) => {
       this.http.post(this.apiUrl+'/api/save', JSON.stringify(j), httpOptions).subscribe(res => {
+      resolve(res);
+      }, (err) => {
+      console.log(err);
+      
+      });
+      });
+  }
+
+  FinishJob(f){
+    return new Promise((resolve) => {
+      this.http.post(this.apiUrl+'/api/finishjob', JSON.stringify(f), httpOptions).subscribe(res => {
       resolve(res);
       }, (err) => {
       console.log(err);

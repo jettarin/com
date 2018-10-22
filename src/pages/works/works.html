@@ -9,9 +9,7 @@
   <ion-list>
     <ion-item-sliding *ngFor="let item of works">
       <button ion-item (click)="openItem(item)">
-        <ion-avatar item-start>
-          <img [src]="item.profilePic" />
-        </ion-avatar>
+        
         <h2>{{item.lov_description}}</h2>
         <p>{{item.lov_name}}</p>
         <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>

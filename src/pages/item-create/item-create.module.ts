@@ -4,6 +4,7 @@ import { IonicPageModule } from 'ionic-angular';
 
 import { ItemCreatePage } from './item-create';
 
+
 @NgModule({
   declarations: [
     ItemCreatePage,
@@ -13,7 +14,6 @@ import { ItemCreatePage } from './item-create';
     TranslateModule.forChild()
   ],
   exports: [
-    ItemCreatePage
-  ]
+    ItemCreatePage  ]
 })
 export class ItemCreatePageModule { }

@@ -1,0 +1,47 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>ปิดงาน {{data.job_header}}</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="cancel()">
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button (click)="done()" [disabled]="!isReadyToSave" strong>
+        <span color="primary" showWhen="ios">
+          <!-- {{ 'DONE_BUTTON' | translate }} -->
+        </span>
+        <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
+    <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
+    
+    <ion-list>
+      
+      <ion-item>
+          <ion-label>วิเคราะห์ปัญหา</ion-label>
+        <ion-input type="text" placeholder="Title" formControlName="comment"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label>วิธีแก้ปัญหา</ion-label>
+        <ion-input type="text" placeholder="..." formControlName="description"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label>วันปิดงาน</ion-label>
+          <ion-datetime placeholder="Date" displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" formControlName="finishdate"></ion-datetime>
+        </ion-item>
+      <ion-item>
+        <ion-label>เวลาปิดงาน</ion-label>
+        <ion-datetime placeholder="Time" displayFormat="HH:mm:ss" pickerFormat="HH:mm:ss" formControlName="finishtime"></ion-datetime>
+      </ion-item>
+    </ion-list>
+  </form>
+  <div padding>
+    <button ion-button color="primary" block  >แจ้งซ่อม</button>
+  </div>
+</ion-content>

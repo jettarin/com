@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
-import { IonicPage, NavController, ViewController ,NavParams, ToastController} from 'ionic-angular';
+import { IonicPage, NavController, ViewController ,NavParams, ToastController,ModalController} from 'ionic-angular';
 import * as moment from 'moment';
 import { RestProvider } from '../../providers/rest/rest';
 import { Storage } from '@ionic/storage';
@@ -11,6 +11,8 @@ import { Storage } from '@ionic/storage';
   selector: 'page-item-create',
   templateUrl: 'item-create.html'
 })
+
+
 export class ItemCreatePage {
   @ViewChild('fileInput') fileInput;
 
@@ -20,23 +22,39 @@ export class ItemCreatePage {
   timenow:any;
   user:any;
   job:any;
-
+  selectOptions:any;
+  departments:any;
+  dep:any;
   form: FormGroup;
 
-  constructor(public navCtrl: NavController, 
+  constructor( public navCtrl: NavController, 
     public viewCtrl: ViewController, 
     formBuilder: FormBuilder, 
     public camera: Camera,
     navParams: NavParams,
     private storage: Storage,
     public restProvider: RestProvider,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+    public modalCtrl: ModalController) {
     
     this.item = navParams.data.params
     this.user = navParams.data.user
+    
     console.log(this.user.data);
     console.log(this.form);
+   
+    this.selectOptions = {
+      title: 'หน่วยงาน',
+      subTitle: 'เลือกหน่วยงานที่แจ้ง',
+      mode: 'md'
+    };
     
+
+    this.restProvider.getDepartments()
+    .then(data => {
+      this.departments = data;
+      console.log(this.departments);
+    });
       
       
       this.form = formBuilder.group({
@@ -49,28 +67,31 @@ export class ItemCreatePage {
         timeacc:moment().add(10, 'minutes').format('HH:mm:ss'),
         timefinish:moment().add(20, 'minutes').format('HH:mm:ss'),
         type:this.item.lov_value,
-        userid:this.user.data.Mem_ID,
-        dep:this.user.data.Cost_SKTHM
+        userid:this.user.data.Mem_ID
 
         // userid:ra
       });
    
-    
-    
-    
-    
-    
-    
-
-    
-
     // Watch the form for changes, and
     this.form.valueChanges.subscribe((v) => {
       this.isReadyToSave = this.form.valid;
     });
   }
 
+  openItem() {
+
+    let addModal = this.modalCtrl.create('ModalsPage');
+    addModal.onDidDismiss(item => {
+      // if (item) {
+      //   this.items.add(item);
+      // }
+    })
+    addModal.present();
+  }
+
   ionViewDidLoad() {
+   console.log('ionViewDidLoad ItemCreatePage');
+   
     
   }
   getUser(){
@@ -83,7 +104,7 @@ export class ItemCreatePage {
         targetWidth: 96,
         targetHeight: 96
       }).then((data) => {
-        this.form.patchValue({ 'profilePic': 'data:image/jpg;base64,' + data });
+        // this.form.patchValue({ 'profilePic': 'data:image/jpg;base64,' + data });
       }, (err) => {
         alert('Unable to take photo');
       })
@@ -122,6 +143,8 @@ export class ItemCreatePage {
    * back to the presenter.
    */
   done() {
+    this.form.value.dep = this.dep
+
     console.log(this.form);
     
     let toastSuccess = this.toastCtrl.create({
@@ -136,6 +159,7 @@ export class ItemCreatePage {
       position: 'top'
     });
     if (!this.form.valid) { return; }
+
       this.restProvider.saveJob(this.form.value).then(data => {
         this.job = data;
         console.log(this.job);
@@ -148,8 +172,6 @@ export class ItemCreatePage {
           toastErr.present();
         }
       });
-    
-    
     
     
   }

@@ -77,6 +77,23 @@ export class ListMasterPage {
     this.navCtrl.push('WorksPage' , {data:this.user})
   }
 
+
+
+  accept(v) {
+    console.log(v);
+    
+    if (v.job_status_code == 1) {
+      let addModal = this.modalCtrl.create('AcceptPage',{data:v,user:this.user});
+      addModal.onDidDismiss(item => {
+        // if (item) {
+        //   this.items.add(item);
+        // }
+      })
+      addModal.present();
+    }
+
+  }
+
   /**
    * Delete an item from the list of items.
    */

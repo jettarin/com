@@ -63,7 +63,7 @@ export class LoginPage {
       console.log(this.user);
       if (this.user.length>0) {
         let toastSuccess = this.toastCtrl.create({
-          message: 'Login Success '+this.user[0].Mem_name+' '+this.user[0].Mem_lastname,
+          message: 'Wellcome '+this.user[0].Mem_name+' '+this.user[0].Mem_lastname,
           duration: 3000,
           position: 'top'
         });

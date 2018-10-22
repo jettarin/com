@@ -36,10 +36,10 @@
       
       <ion-item>
           <ion-label>เรื่องที่แจ้ง</ion-label>
-        <ion-input type="text" placeholder="Title" formControlName="name" value="{{item.lov_description}}"></ion-input>
+        <ion-input type="text" placeholder="Title" formControlName="name"></ion-input>
       </ion-item>
       <ion-item>
-          <ion-label>แก้ปัญหา</ion-label>
+          <ion-label>รายละเอียด</ion-label>
         <ion-input type="text" placeholder="..." formControlName="about"></ion-input>
       </ion-item>
       <ion-item>
@@ -50,21 +50,19 @@
         <ion-label>เวลารับงาน</ion-label>
         <ion-datetime placeholder="Time" displayFormat="HH:mm:ss" pickerFormat="HH:mm:ss" formControlName="timenow"></ion-datetime>
       </ion-item>
-      <ion-item>
-          <ion-label>เวลาถึงหน้างาน</ion-label>
-          <ion-datetime placeholder="Time" displayFormat="HH:mm:ss" pickerFormat="HH:mm:ss" formControlName="timeacc"></ion-datetime>
-      </ion-item>
-      <ion-item>
-          <ion-label>วันที่ปิดงาน</ion-label>
-          <ion-datetime placeholder="Date" displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" formControlName="dateacc"></ion-datetime>
-        </ion-item>
-      <ion-item>
-        <ion-label>เวลาปิดงาน</ion-label>
-        <ion-datetime placeholder="Time" displayFormat="HH:mm:ss" pickerFormat="HH:mm:ss" formControlName="timefinish"></ion-datetime>
-      </ion-item>
-      
-      
-
     </ion-list>
   </form>
+  
+    
+    <ion-item>
+    <ion-label>หน่วยงาน</ion-label>
+    <ion-select [selectOptions]="selectOptions" [(ngModel)]="dep">
+        <ion-option *ngFor="let item of departments" [value]="item.Cost_SKTHM">{{item.Cost_name}}</ion-option>
+       
+      </ion-select>
+    </ion-item>
+
+  <div padding>
+    <button ion-button color="primary" block (click)="done()" >แจ้งซ่อม</button>
+  </div>
 </ion-content>
